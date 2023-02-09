@@ -7,6 +7,7 @@ import com.example.tugas1_marchellaps.entity.User;
 import com.example.tugas1_marchellaps.repository.UserRepository;
 import com.example.tugas1_marchellaps.security.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -44,13 +45,13 @@ public class UserService {
             loginResponse.setUsername(user.getUsername());
             loginResponse.setToken(token);
 
-            responseData.setStatus(200);
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("User berhasil register");
             responseData.setPayload(loginResponse);
 
             return ResponseEntity.ok(responseData);
         } else {
-            responseData.setStatus(200);
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("User dengan username = " + user.getUsername() + " telah terdaftar");
             responseData.setPayload(null);
 
@@ -73,14 +74,18 @@ public class UserService {
             loginResponse.setUsername(user.getUsername());
             loginResponse.setToken(token);
 
-            responseData.setStatus(200);
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Login sukses");
             responseData.setPayload(loginResponse);
 
             return ResponseEntity.ok(responseData);
-//            return Collections.singletonMap("jwt-token", token);
         }catch (AuthenticationException authExc){
-            throw new RuntimeException("Invalid Login Credentials");
+            responseData.setStatus(HttpStatus.INTERNAL_SERVER_ERROR.value());
+            responseData.setMessage("Invalid Login Credentials");
+            responseData.setPayload(null);
+
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(responseData);
+//            throw new RuntimeException("Invalid Login Credentials");
         }
     }
 
@@ -89,7 +94,7 @@ public class UserService {
         String username = (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         User findUser =  userRepo.findByUsername(username).get();
 
-        responseData.setStatus(200);
+        responseData.setStatus(HttpStatus.OK.value());
         responseData.setMessage("User found");
         responseData.setPayload(findUser);
 

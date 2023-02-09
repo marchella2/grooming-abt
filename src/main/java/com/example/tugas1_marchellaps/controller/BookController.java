@@ -19,7 +19,7 @@ public class BookController {
         Response<Book> responseData = new Response<>();
 
         try{
-            return bookSrvc.getAllBooks(HttpStatus.OK);
+            return bookSrvc.getAllBooks();
         } catch (Exception e){
             responseData.setStatus(HttpStatus.MULTI_STATUS.value());
             responseData.setMessage(e.getMessage());
@@ -34,7 +34,7 @@ public class BookController {
         Response<Book> responseData = new Response<>();
 
         try{
-            return bookSrvc.addBook(book, HttpStatus.OK);
+            return bookSrvc.addBook(book);
         } catch (Exception e){
             responseData.setStatus(HttpStatus.MULTI_STATUS.value());
             responseData.setMessage(e.getMessage());
@@ -49,7 +49,7 @@ public class BookController {
         Response<Book> responseData = new Response<>();
 
         try{
-            return bookSrvc.deleteBook(id, HttpStatus.OK);
+            return bookSrvc.deleteBook(id);
         } catch (Exception e){
             responseData.setStatus(HttpStatus.MULTI_STATUS.value());
             responseData.setMessage(e.getMessage());
@@ -64,7 +64,7 @@ public class BookController {
         Response<Book> responseData = new Response<>();
 
         try{
-            return bookSrvc.updateBook(id, book, HttpStatus.OK);
+            return bookSrvc.updateBook(id, book);
         } catch (Exception e){
             responseData.setStatus(HttpStatus.MULTI_STATUS.value());
             responseData.setMessage(e.getMessage());
@@ -79,7 +79,7 @@ public class BookController {
         Response<Book> responseData = new Response<>();
 
         try{
-            return bookSrvc.searchBookById(id, HttpStatus.OK);
+            return bookSrvc.searchBookById(id);
         } catch (Exception e){
             responseData.setStatus(HttpStatus.MULTI_STATUS.value());
             responseData.setMessage(e.getMessage());

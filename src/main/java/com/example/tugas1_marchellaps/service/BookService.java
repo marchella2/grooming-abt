@@ -17,19 +17,19 @@ public class BookService {
     @Autowired
     private BookRepository bookRepos;
 
-    public ResponseEntity<Response<Book>> getAllBooks(HttpStatus status){
+    public ResponseEntity<Response<Book>> getAllBooks(){
         Response<Book> responseData = new Response<>();
 
         List<Book> searchAllBooks = bookRepos.findAll();
 
         if(searchAllBooks.isEmpty()){
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data kosong");
             responseData.setPayload(null);
 
             return ResponseEntity.ok(responseData);
         } else {
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data found");
             responseData.setPayload(searchAllBooks);
 
@@ -37,33 +37,33 @@ public class BookService {
         }
     }
 
-    public ResponseEntity<Response<Book>> addBook(Book book, HttpStatus status){
+    public ResponseEntity<Response<Book>> addBook(Book book){
         Response<Book> responseData = new Response<>();
 
         Book addBook = bookRepos.save(book);
 
-        responseData.setStatus(status.value());
+        responseData.setStatus(HttpStatus.OK.value());
         responseData.setMessage("Data buku berhasil disimpan");
         responseData.setPayload(addBook);
 
         return ResponseEntity.ok(responseData);
     }
 
-    public ResponseEntity<Response<Book>> deleteBook(Long id, HttpStatus status){
+    public ResponseEntity<Response<Book>> deleteBook(Long id){
         Response<Book> responseData = new Response<>();
 
         // find book dari id yang dikirim, apabila id buku ada maka bisa di delete
         Optional<Book> dataBuku = bookRepos.findById(id);
 
         if (!dataBuku.isPresent()){
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data buku dengan id " + id + " tidak ada");
             responseData.setPayload(null);
 
             return ResponseEntity.ok(responseData);
         } else {
             bookRepos.deleteById(id);
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data buku berhasil dihapus");
             responseData.setPayload(null);
 
@@ -71,14 +71,14 @@ public class BookService {
         }
     }
 
-    public ResponseEntity<Response<Book>> updateBook(Long id, Book book, HttpStatus status){
+    public ResponseEntity<Response<Book>> updateBook(Long id, Book book){
         Response<Book> responseData = new Response<>();
 
         // find book dari id yang dikirim
         Book dataBuku = bookRepos.findById(id).get();
 
         if (dataBuku == null){
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data buku dengan id " + id + " tidak ada");
             responseData.setPayload(null);
 
@@ -93,7 +93,7 @@ public class BookService {
 
             Book saveBook = bookRepos.save(dataBuku);
 
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data berhasil diupdate");
             responseData.setPayload(saveBook);
 
@@ -101,19 +101,19 @@ public class BookService {
         }
     }
 
-    public ResponseEntity<Response<Book>> searchBookById(Long id, HttpStatus status){
+    public ResponseEntity<Response<Book>> searchBookById(Long id){
         Response<Book> responseData = new Response<>();
 
         Optional<Book> findBook = bookRepos.findById(id);
 
         if (!findBook.isPresent()){
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data kosong");
             responseData.setPayload(null);
 
             return ResponseEntity.ok(responseData);
         } else {
-            responseData.setStatus(status.value());
+            responseData.setStatus(HttpStatus.OK.value());
             responseData.setMessage("Data found");
             responseData.setPayload(findBook);
 
